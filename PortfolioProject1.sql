@@ -1,17 +1,5 @@
-/* This project aims to explore Covid-19 data and summarise the key points in Singapore's fight against the Covid-19 pandemic */
---Select *
---From PortfolioProject..CovidDeaths
---order by location, date
+/* This project aims to explore Covid-19 data and summarise the key points in Singapore's fight against the Covid-19 pandemic
 
---Select *
---From PortfolioProject..CovidVaccinations
---order by location, date
-
---Select location, date, total_cases, new_cases, total_deaths, population
---From PortfolioProject..CovidDeaths
---order by location, date 
-
-/*
 First comparison: Total Cases vs Total Deaths for Singapore
 This query will compute and show the Case Fatality Rate of Covid-19 in Singapore.
 The Case Fatality Rate refers to the proportion of deaths caused by Covid-19 compared to the total number of people infected with Covid-19, to evaluate the handling of Covid-19 cases and the likelihood of dying if you are infected with Covid-19 in Singapore.
@@ -188,7 +176,10 @@ Order by date
 Select *
 From World_Rates
 Order by location, date -- I will use this view to make comparisons of mortality and case fatality rates in Tableau
-/* Map of Clusters */
+
+/* Map of Clusters
+Edited data on Covid-19 clusters in Singapore, which were obtained from the Ministry of Health, Singapore
+*/
 Alter Table Clusters
 Alter Column Total Decimal(10, 2);
 
@@ -199,17 +190,19 @@ Insert Into Clusters Values -- Splitting the KTV Cluster into 5 main KTV areas i
 ('Golden Mile Complex',0,252),
 ('Textile Centre', 0,252);
 
-Insert Into Clusters Values
-('Jurong Fishery Port', 0.5, 1149),
-('Hong Lim Market & Food Centre', 0.5,1149);
-
 Delete From Clusters
 Where Cluster = 'KTV lounges/clubs'
+
+Insert Into Clusters Values
+('Jurong Fishery Port', 0.5, 1149), --The dataset originally grouped both Jurong Fishery port and HLM Food Centre together in the same row. 
+('Hong Lim Market & Food Centre', 0.5,1149); 
+-- I decided to remove the original row and split them into two different rows so they reflect as two locations in the cluster map.
 
 Delete From Clusters
 Where Cluster = 'Jurong Fishery Port/ Hong Lim Market & Food Centre*'
 
-SELECT Cluster, Total
-FROM Clusters
-WHERE Cluster NOT LIKE 'Case%'
+-- Dataset includes Covid-19 cases that were individuals that were tested positive for the virus, which were not clusters.
+Select Cluster, Total 
+From Clusters
+WhereE Cluster Not Like 'Case%' --I excluded those individuals through using the WHERE clause.
 Order by Total Desc
