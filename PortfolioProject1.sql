@@ -204,5 +204,5 @@ Where Cluster = 'Jurong Fishery Port/ Hong Lim Market & Food Centre*'
 -- Dataset includes Covid-19 cases that were individuals that were tested positive for the virus, which were not clusters.
 Select Cluster, Total 
 From Clusters
-WhereE Cluster Not Like 'Case%' --I excluded those individuals through using the WHERE clause.
+Where Cluster Not Like 'Case%' --I excluded those individuals through using the WHERE clause.
 Order by Total Desc
